@@ -93,6 +93,8 @@ class GaussianHMM(_BaseHMM):
         init_params="stmc",
         implementation="log",
         hack=False,
+        hack_mean=-1,
+        hack_covar=-1,
     ):
         """
         Parameters
@@ -184,6 +186,8 @@ class GaussianHMM(_BaseHMM):
         self.covars_prior = covars_prior
         self.covars_weight = covars_weight
         self.hack = hack
+        self.hack_mean = hack_mean
+        self.hack_covar = hack_covar
 
     @property
     def covars_(self):
@@ -295,9 +299,8 @@ class GaussianHMM(_BaseHMM):
                 means_weight + denom
             )
             if self.hack:
-                # self.means_[0] = 0.1019
-                self.means_[1] = 0.22606331
-                self.means_[2] = 0.3921064210246222
+                if self.hack_mean!=-1:
+                    self.means_[0] = self.hack_mean
 
         if "c" in self.params:
             covars_prior = self.covars_prior
@@ -338,9 +341,10 @@ class GaussianHMM(_BaseHMM):
                         cvweight + stats["post"][:, None, None]
                     )
             if self.hack:
-                # self.covars_[0][0][0] = 0.0477 ** 2
-                self.covars_[1][0][0] = 0.08801599 ** 2
-                self.covars_[2][0][0] = 0.19660439362902693 ** 2
+                if self.hack_covar!=-1:
+                     self.covars_[0][0][0] = self.hack_covar
+                        
+
 
 
 _MULTINOMIALHMM_DOC_SUFFIX = """
