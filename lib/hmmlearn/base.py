@@ -114,7 +114,7 @@ class ConvergenceMonitor:
         # XXX we might want to check that ``logprob`` is non-decreasing.
         return (self.iter == self.n_iter or
                 (len(self.history) >= 2 and
-                 self.history[-1] - self.history[-2] < self.tol))
+                 abs(self.history[-1] - self.history[-2]) < self.tol))
 
 
 class _BaseHMM(BaseEstimator):
